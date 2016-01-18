@@ -4,6 +4,8 @@ import java.util.Scanner;
 
 import sonder.sonorous.net.NetClient;
 import sonder.sonorous.net.NetServer;
+import sonder.sonorous.net.Network;
+import sonder.sonorous.net.RSAKey;
 import sonder.sonorous.resource.Crypto;
 import sonder.sonorous.resource.Log;
 
@@ -21,6 +23,7 @@ public class Sonorous {
 		Log.write("- - - - - - - - - - - - - - -");
 		Log.write("");
 		
+		Network.init();
 		Sonorous application = new Sonorous();
 		application.service();
 	}
@@ -51,14 +54,16 @@ public class Sonorous {
 			}
 			
 			if(input.startsWith("connect")) {
+				String[] reg = input.split(" ");
+				String ip = reg[1];
 				if(client.isConnected()) {
 					Log.write("Client is already connected to " + REMOTE + "!");
 					Log.write("Use the disconnect command then retry your previous command");
+				} else if(server.connected.contains(ip)) {
+					client.connect(ip, Network.TCP_PORT_SECONDARY);
 				} else {
 				
-					String[] reg = input.split(" ");
-					String ip = reg[1];
-					client.connect(ip);
+					client.connect(ip, Network.TCP_PORT);
 				
 					if(client.isConnected()) {
 						REMOTE = ip;
@@ -118,6 +123,24 @@ public class Sonorous {
 				} else {
 					Log.write("Object not recognized");
 				}
+			}
+			
+			if(input.equalsIgnoreCase("keys")) {
+				Log.write("PUBLIC: " + PUBLIC_KEY);
+				Log.write("PRIVATE: " + PRIVATE_KEY);
+			}
+			
+			if(input.equalsIgnoreCase("y")) {
+				if(PUBLIC_PENDING) {
+					RSAKey key = new RSAKey();
+					key.key = PUBLIC_KEY;
+					client.send(key);
+					Log.write("Sent public key!");
+				}
+			}
+			
+			if(input.equalsIgnoreCase("whoami")) {
+				Log.write("You are " + Network.PUBLIC_IP);
 			}
 		}
 	}

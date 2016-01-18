@@ -24,9 +24,9 @@ public class NetClient {
 	    kryo.register(AESKey.class);
 	}
 	
-	public void connect(String ip) throws Exception {
+	public void connect(String ip, int port) throws Exception {
 		Log.write("[CLIENT] Connecting to " + ip);
-		client.connect(5000, ip, Network.TCP_PORT);
+		client.connect(5000, ip, port);
 		
 		if(client.isConnected()) {
 			Log.write("[CLIENT] Connection successful!");

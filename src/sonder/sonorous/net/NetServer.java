@@ -1,6 +1,7 @@
 package sonder.sonorous.net;
 
 import java.io.IOException;
+import java.util.LinkedList;
 
 import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryonet.Connection;
@@ -15,6 +16,8 @@ public class NetServer {
 	private Server server;
 	private Kryo kryo;
 	
+	public LinkedList<String> connected;
+	
 	public NetServer() throws Exception {
 		Log.write("[SERVER] Starting server service...");
 		server = new Server();
@@ -24,6 +27,7 @@ public class NetServer {
 	    kryo.register(Byte.class);
 	    kryo.register(String.class);
 	    kryo.register(AESKey.class);
+	    connected = new LinkedList<String>();
 	}
 	
 	public void stop() {

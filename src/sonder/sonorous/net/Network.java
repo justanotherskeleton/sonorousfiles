@@ -7,6 +7,8 @@ import java.net.URL;
 public class Network {
 	
 	public static final int TCP_PORT = 59565;
+	public static final int TCP_PORT_SECONDARY = 59566;
+	public static final int TCP_PORT_BACKUP = 59567;
 	public static String PUBLIC_IP = null;
 	
 	public static void init() throws Exception {
