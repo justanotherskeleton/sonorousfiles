@@ -14,6 +14,8 @@ public class NetClient {
 	private Client client;
 	private Kryo kryo;
 	
+	public int PORT_IN_USE;
+	
 	public NetClient() {
 		Log.write("[CLIENT] Starting client service...");
 		client = new Client();
@@ -22,13 +24,21 @@ public class NetClient {
 	    kryo.register(Byte.class);
 	    kryo.register(String.class);
 	    kryo.register(AESKey.class);
+	    kryo.register(PortNeg.class);
+	    PORT_IN_USE = 0;
 	}
 	
 	public void connect(String ip, int port) throws Exception {
 		Log.write("[CLIENT] Connecting to " + ip);
+		
+		client.connect(5000, ip, Network.RESERVED_COMMS);
+		Log.write("Opened reserved port negotiator");
+		
 		client.connect(5000, ip, port);
 		
 		if(client.isConnected()) {
+			Network.markTaken(port);
+			PORT_IN_USE = port;
 			Log.write("[CLIENT] Connection successful!");
 		} else {
 			Log.write("[CLIENT] Connection failed!");
@@ -37,6 +47,8 @@ public class NetClient {
 	
 	public void disconnect() {
 		client.close();
+		Network.markAvalible(PORT_IN_USE);
+		PORT_IN_USE = 0;
 		Log.write("[CLIENT] Client disconnected!");
 	}
 	

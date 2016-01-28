@@ -59,15 +59,13 @@ public class Sonorous {
 				if(client.isConnected()) {
 					Log.write("Client is already connected to " + REMOTE + "!");
 					Log.write("Use the disconnect command then retry your previous command");
-				} else if(server.connected.contains(ip)) {
-					client.connect(ip, Network.TCP_PORT_SECONDARY);
+				}
+				
+				int port = Network.nextAvaliblePort();
+				if(port == 0) {
+					Log.write("Invalid port (0), cannot connect!");
 				} else {
-				
-					client.connect(ip, Network.TCP_PORT);
-				
-					if(client.isConnected()) {
-						REMOTE = ip;
-					}
+					client.connect(ip, port);
 				}
 			}
 			

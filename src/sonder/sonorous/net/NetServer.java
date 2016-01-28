@@ -27,6 +27,7 @@ public class NetServer {
 	    kryo.register(Byte.class);
 	    kryo.register(String.class);
 	    kryo.register(AESKey.class);
+	    kryo.register(PortNeg.class);
 	    connected = new LinkedList<String>();
 	}
 	
@@ -58,6 +59,14 @@ public class NetServer {
 		        		  Log.write("To send type 'y', type 'n' to decline...");
 		        		  Sonorous.PUBLIC_PENDING = true;
 		        	  }
+		        	  
+		        	  if(((Byte)object) == 0x20) {
+		        		  Log.write("Negotiating port with incoming client...");
+		        	  }
+		          }
+		          
+		          if(object instanceof PortNeg) {
+		        	  LinkedList<Integer> PORTS_OPEN = ((PortNeg)object).OPEN_PORTS;
 		          }
 		       }
 		});
