@@ -61,12 +61,7 @@ public class Sonorous {
 					Log.write("Use the disconnect command then retry your previous command");
 				}
 				
-				int port = Network.nextAvaliblePort();
-				if(port == 0) {
-					Log.write("Invalid port (0), cannot connect!");
-				} else {
-					client.connect(ip, port);
-				}
+				client.connect(ip);
 			}
 			
 			if(input.equalsIgnoreCase("abort")) {

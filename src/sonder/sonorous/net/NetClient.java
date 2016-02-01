@@ -28,11 +28,16 @@ public class NetClient {
 	    PORT_IN_USE = 0;
 	}
 	
-	public void connect(String ip, int port) throws Exception {
+	public void connect(String ip) throws Exception {
 		Log.write("[CLIENT] Connecting to " + ip);
+		int port = 0;
 		
 		client.connect(5000, ip, Network.RESERVED_COMMS);
-		Log.write("Opened reserved port negotiator");
+		Log.write("Opened reserved port negotiator...");
+		client.sendTCP((byte)0x20);
+		PortNeg p1 = new PortNeg();
+		p1.OPEN_PORTS = Network.allAvaliblePorts();
+		client.sendTCP(p1);
 		
 		client.connect(5000, ip, port);
 		
@@ -72,7 +77,13 @@ public class NetClient {
 		        				  " has responded to your ping!");
 		        	  }
 		          }
+		          
+		          if(object instanceof Integer) {
+		        	  Integer port = (Integer)object;
+		        	  Log.write("Remote host choose port " + port);
+		          }
 		       }
+		       
 		});
 	}
 	

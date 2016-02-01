@@ -87,6 +87,44 @@ public class Network {
 		}
 	}
 	
+	public static LinkedList<Integer> allPorts() {
+		LinkedList<Integer> li = new LinkedList<Integer>();
+		li.add(TCP_PORT);
+		li.add(TCP_PORT_SECONDARY);
+		li.add(TCP_PORT_BACKUP);
+		li.add(TCP_PORT_4);
+		li.add(TCP_PORT_5);
+		li.add(TCP_PORT_6);
+		return li;
+	}
 	
+	public static LinkedList<Integer> allAvaliblePorts() {
+		LinkedList<Integer> li = new LinkedList<Integer>();
+		if(TCP_1_AVALIBLE) {
+			li.add(TCP_PORT);
+		}
+		
+		if(TCP_2_AVALIBLE) {
+			li.add(TCP_PORT_SECONDARY);
+		}
+		
+		if(TCP_3_AVALIBLE) {
+			li.add(TCP_PORT_BACKUP);
+		}
+		
+		if(TCP_4_AVALIBLE) {
+			li.add(TCP_PORT_4);
+		}
+		
+		if(TCP_5_AVALIBLE) {
+			li.add(TCP_PORT_5);
+		}
+		
+		if(TCP_6_AVALIBLE) {
+			li.add(TCP_PORT_6);
+		}
+		
+		return li;
+	}
 
 }

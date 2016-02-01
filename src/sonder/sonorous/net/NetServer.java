@@ -10,6 +10,7 @@ import com.esotericsoftware.kryonet.Server;
 
 import sonder.sonorous.build.Sonorous;
 import sonder.sonorous.resource.Log;
+import sonder.sonorous.resource.Util;
 
 public class NetServer {
 	
@@ -67,7 +68,10 @@ public class NetServer {
 		          
 		          if(object instanceof PortNeg) {
 		        	  LinkedList<Integer> PORTS_OPEN = ((PortNeg)object).OPEN_PORTS;
+		        	  int BEST_PORT = (int) Util.findBestCollision(Network.allAvaliblePorts(), PORTS_OPEN);
 		          }
+		          
+		          
 		       }
 		});
 	}
