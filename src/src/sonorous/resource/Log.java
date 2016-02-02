@@ -1,4 +1,4 @@
-package sonder.sonorous.resource;
+package src.sonorous.resource;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
