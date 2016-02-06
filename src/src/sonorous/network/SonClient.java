@@ -1,5 +1,9 @@
 package src.sonorous.network;
 
+import java.io.File;
+
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import com.esotericsoftware.kryo.Kryo;
@@ -7,6 +11,9 @@ import com.esotericsoftware.kryonet.Client;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
 
+import src.sonorous.build.Policy;
+import src.sonorous.event.CTInvoker;
+import src.sonorous.event.CTListener;
 import src.sonorous.resource.Log;
 
 public class SonClient {
@@ -21,6 +28,7 @@ public class SonClient {
 		client = new Client();
 	    client.start();
 	    kryo = client.getKryo();
+	    
 	}
 	
 	public void connect(String ip) throws Exception {
@@ -49,6 +57,15 @@ public class SonClient {
 		          
 		       }
 		});
+	}
+	
+	public void sendFile(File encrypted) throws Exception {
+		TransferThread tt = new TransferThread(encrypted, this);
+		tt.run();
+	}
+	
+	public void send(Object obj) {
+		client.sendTCP(obj);
 	}
 
 }

@@ -29,6 +29,7 @@ public class FilePush {
 		this.segments = (long) Math.ceil(seg_math);
 		this.name = f.getName();
 		this.origin = Network.PUBLIC_IP;
+		Log.write("Signed pending file push with proper data");
 	}
 
 }
