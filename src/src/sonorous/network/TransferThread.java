@@ -8,7 +8,7 @@ import src.sonorous.build.Policy;
 import src.sonorous.event.CTListener;
 import src.sonorous.resource.Log;
 
-public class TransferThread implements Runnable, CTListener {
+public class TransferThread implements CTListener, Runnable {
 	
 	public int id;
 	public int progress;
@@ -42,18 +42,22 @@ public class TransferThread implements Runnable, CTListener {
 	}
 	
 	@Override
-	public void segmentReceived() {
+	public void segmentReceived(int id) {
 		try {
-			byte[] buffer = new byte[Policy.FILE_CRYPTO_BUFFER];
-			int in = fis.read(buffer);
-			FileSegment fs = new FileSegment();
-			fs.id = fp.EFFECTIVE_ID;
-			fs.data = buffer;
-			c.send(fs);
+			if(id == fp.EFFECTIVE_ID) {
+				byte[] buffer = new byte[Policy.FILE_CRYPTO_BUFFER];
+				int in = fis.read(buffer);
+				FileSegment fs = new FileSegment();
+				fs.id = fp.EFFECTIVE_ID;
+				fs.data = buffer;
+				c.send(fs);
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		
 		progress++;
+		Log.write(progress + "/" + fp.segments + " segments transfered! t_id:" + id);
 		if(progress >= fp.segments) {
 			Log.write("File transfer completed id:" + id);
 			Thread.currentThread().interrupt();

@@ -28,7 +28,9 @@ public class CentralizedServer {
 		Log.write("Server listening!");
 		server.addListener(new Listener() {
 		       public void received (Connection connection, Object object) {
-		          
+		          if(object instanceof FileSegment) {
+		        	  
+		          }
 		       }
 		    });
 	}

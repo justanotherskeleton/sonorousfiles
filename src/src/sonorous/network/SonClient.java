@@ -12,6 +12,7 @@ import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
 
 import src.sonorous.build.Policy;
+import src.sonorous.build.Sonorous;
 import src.sonorous.event.CTInvoker;
 import src.sonorous.event.CTListener;
 import src.sonorous.resource.Log;
@@ -54,13 +55,16 @@ public class SonClient {
 	public void listen() {
 		client.addListener(new Listener() {
 		       public void received (Connection connection, Object object) {
-		          
+		          if(object instanceof CTContinue) {
+		        	  Sonorous.cti.triggerEvent(((CTContinue)object).id);
+		          }
 		       }
 		});
 	}
 	
 	public void sendFile(File encrypted) throws Exception {
 		TransferThread tt = new TransferThread(encrypted, this);
+		Sonorous.cti.addListener(tt);
 		tt.run();
 	}
 	
