@@ -31,5 +31,10 @@ public class FilePush {
 		this.origin = Network.PUBLIC_IP;
 		Log.write("Signed pending file push with proper data");
 	}
+	
+	public void spill() {
+		Log.write("FILE PUSH: ID:" + EFFECTIVE_ID + ", SIZE (KILOBYTES):" + sizeKB + ", SEGMENTS:" + segments
+				+ "NAME:" + name + ", ORIGIN:" + origin + "||");
+	}
 
 }

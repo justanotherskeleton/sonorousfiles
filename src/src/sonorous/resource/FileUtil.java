@@ -4,12 +4,16 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.security.MessageDigest;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
+import net.lingala.zip4j.core.ZipFile;
+import net.lingala.zip4j.model.ZipParameters;
+import net.lingala.zip4j.util.Zip4jConstants;
 import src.sonorous.build.Policy;
 
 public class FileUtil {
@@ -73,25 +77,25 @@ public class FileUtil {
 		
 		Log.write("Compressing files...");
 		int code = new Random().nextInt((10000 - 100) + 1) + 100;
-		String zip_file = String.valueOf(code) + ".zip";
-		FileOutputStream fos1 = new FileOutputStream(zip_file);
-		ZipOutputStream zos = new ZipOutputStream(fos1);
+		File zip_file = new File(String.valueOf(code) + ".son");
+		zip_file.createNewFile();
+		ZipFile zf = new ZipFile(zip_file);
+		ZipParameters parameters = new ZipParameters();
+		parameters.setCompressionMethod(Zip4jConstants.COMP_DEFLATE);
+		parameters.setCompressionLevel(Zip4jConstants.DEFLATE_LEVEL_NORMAL);
 		
 		for(File f : files) {
-			addToZipFile(f, zos);
+			zf.addFile(f, parameters);
 		}
-		
-		File zip = new File(zip_file);
-		if(!zip.exists()) {
+
+		if(!zip_file.exists()) {
 			Log.write("Error occured while writing zip file");
 			return;
 		}
 		
-		zos.close();
-		fos1.close();
 		Log.write("Files compressed, encrypting zip!");
-		FileInputStream fis = new FileInputStream(zip);
-		File en_file = new File(zip_file + "-en.zip");
+		FileInputStream fis = new FileInputStream(zip_file);
+		File en_file = new File(zip_file.getName() + "-en.son");
 		en_file.createNewFile();
 		FileOutputStream fos = new FileOutputStream(en_file);
 		
@@ -105,29 +109,42 @@ public class FileUtil {
 		
 		fis.close();
 		fos.close();
-		zip.delete();
+		zip_file.delete();
 		Log.write("Encryption done, ecrypted zip has been deleted!");
 		Log.write("Final compressed size: " + en_file.length());
 		Log.write("Encryption operation complete!");
 	}
 	
-	//function credit to avajava
-	public static void addToZipFile(File file, ZipOutputStream zos) throws Exception {
-
-		Log.write("Writing '" + file.getName() + "' to zip file");
-
-		FileInputStream fis = new FileInputStream(file);
-		ZipEntry zipEntry = new ZipEntry(file.getAbsolutePath());
-		zos.putNextEntry(zipEntry);
-
-		byte[] bytes = new byte[1024];
-		int length;
-		while ((length = fis.read(bytes)) >= 0) {
-			zos.write(bytes, 0, length);
+	public void decryptFiles(File son, File output, String key) throws Exception {
+		File de_file = new File(son.getName() + "-de.son");
+		de_file.createNewFile();
+		FileInputStream fis = new FileInputStream(son);
+		FileOutputStream fos = new FileOutputStream(de_file);
+		Crypto.setBE_global(key);
+		
+		Log.write("Starting decrypt operation on '" + son.getName() + "'");
+		int buffer = Policy.FILE_CRYPTO_BUFFER;
+		byte[] in = new byte[buffer];
+		int read;
+		while ((read = fis.read(in)) != -1) {
+			byte[] out = Crypto.decrypt_data_global(in);
+			if (out != null)
+				fos.write(out);
 		}
-
-		zos.closeEntry();
-		fis.close();
+		
+		Log.write("Files decrypted, extracting to '" + output.getName() + "'");
+		ZipFile zf = new ZipFile(de_file);
+		zf.extractAll(output.getAbsolutePath());
+		
+		Log.write("Extracted all decrypted files!"); 
+	}
+	
+	public static void writeToFile(byte[] data, FileOutputStream fos) {
+		try {
+			fos.write(data);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 }
