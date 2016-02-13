@@ -3,6 +3,7 @@ package src.sonorous.event;
 import java.util.ArrayList;
 import java.util.List;
 
+@Deprecated
 public class CTInvoker {
 	private List<CTListener> listeners = new ArrayList<CTListener>();
 

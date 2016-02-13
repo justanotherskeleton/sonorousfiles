@@ -20,6 +20,7 @@ import net.lingala.zip4j.core.ZipFile;
 import net.lingala.zip4j.model.ZipParameters;
 import net.lingala.zip4j.util.Zip4jConstants;
 import src.sonorous.build.Policy;
+import src.sonorous.network.FileSegment;
 
 public class FileUtil {
 	
@@ -176,6 +177,20 @@ public class FileUtil {
 	    	e.printStackTrace();
 	    	return null;
 	    }
+	}
+	
+	public static FileSegment nextSegment(byte id, long block, FileInputStream fis) {
+		byte[] read = new byte[Policy.FILE_CRYPTO_BUFFER];
+		try {
+			fis.read(read, (int) (block * Policy.FILE_CRYPTO_BUFFER), Policy.FILE_CRYPTO_BUFFER + 1);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		FileSegment seg = new FileSegment();
+		seg.id = id;
+		seg.data = read;
+		return seg;
 	}
 
 }

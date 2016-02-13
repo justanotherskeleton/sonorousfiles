@@ -5,6 +5,8 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
 
+import src.sonorous.resource.Log;
+
 public class Network {
 	
 	public static final int TCP_PORT = 59565;
@@ -16,6 +18,7 @@ public class Network {
 		                whatismyip.openStream()));
 
 		PUBLIC_IP = in.readLine();
+		Log.write("Initialized network!");
 	}
 
 }

@@ -1,10 +1,14 @@
 package src.sonorous.network;
 
-public class CTContinue {
+public class CTContinue implements ServerReflect {
 	
-	public int id;
+	public byte id;
 	
-	public void id(int id) {
+	public CTContinue(byte id) {
+		this.id = id;
+	}
+	
+	public void id(byte id) {
 		this.id = id;
 	}
 

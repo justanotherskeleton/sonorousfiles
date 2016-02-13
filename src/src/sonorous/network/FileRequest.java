@@ -1,6 +1,6 @@
 package src.sonorous.network;
 
-public class FileRequest {
+public class FileRequest implements ServerReflect {
 	
 	public String FILE_HASH;
 	

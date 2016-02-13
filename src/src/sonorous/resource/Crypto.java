@@ -19,6 +19,7 @@ public class Crypto {
 		en = new BasicTextEncryptor();
 		eb = new BasicBinaryEncryptor();
 		eb_global = new BasicBinaryEncryptor();
+		Log.write("Initialized cryptography!");
 	}
 	
 	public static String hash(String in) throws Exception {

@@ -1,6 +1,6 @@
 package src.sonorous.network;
 
-public class FileSegment {
+public class FileSegment implements ServerReflect {
 	
 	public byte id;
 	public byte[] data;

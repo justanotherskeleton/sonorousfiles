@@ -8,6 +8,7 @@ import src.sonorous.build.Policy;
 import src.sonorous.event.CTListener;
 import src.sonorous.resource.Log;
 
+@Deprecated
 public class TransferThread implements CTListener, Runnable {
 	
 	public int id;

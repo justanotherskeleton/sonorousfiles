@@ -8,7 +8,7 @@ import src.sonorous.build.Policy;
 import src.sonorous.resource.FileUtil;
 import src.sonorous.resource.Log;
 
-public class FilePush {
+public class FilePush implements ServerReflect {
 	
 	public byte EFFECTIVE_ID;
 	public long sizeKB, segments;
