@@ -1,11 +1,11 @@
-package src.sonorous.network;
+package sonder.sonorous.network;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
 
-import src.sonorous.resource.Log;
+import sonder.sonorous.resource.Log;
 
 public class Network {
 	

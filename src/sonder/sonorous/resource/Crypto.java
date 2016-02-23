@@ -1,4 +1,4 @@
-package src.sonorous.resource;
+package sonder.sonorous.resource;
 
 import java.io.UnsupportedEncodingException;
 import java.nio.charset.Charset;

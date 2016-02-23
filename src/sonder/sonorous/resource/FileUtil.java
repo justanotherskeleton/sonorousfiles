@@ -1,4 +1,4 @@
-package src.sonorous.resource;
+package sonder.sonorous.resource;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -12,15 +12,13 @@ import java.util.ArrayList;
 import java.util.Random;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
-
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-
 import net.lingala.zip4j.core.ZipFile;
 import net.lingala.zip4j.model.ZipParameters;
 import net.lingala.zip4j.util.Zip4jConstants;
-import src.sonorous.build.Policy;
-import src.sonorous.network.FileSegment;
+import sonder.sonorous.build.Policy;
+import sonder.sonorous.network.data.FileSegment;
 
 public class FileUtil {
 	
@@ -153,32 +151,6 @@ public class FileUtil {
 		}
 	}
 	
-	public static Object[][] getSyncTableData(File json) throws Exception {
-		
-		if(!json.exists()) {
-			json.createNewFile();
-			Log.write("'" + json.getName() + "', does not exist, created new database file!");
-			return new Object[][] { { "no", "entries", "found" }};
-		}
-		
-		try (FileReader reader = new FileReader(json)) {
-	        Gson gson = new GsonBuilder().create();
-	        FileSyncJSON data = gson.fromJson(reader, FileSyncJSON.class);
-	        
-	        Object[][] export = new Object[2][data.filesToSync.size()];
-	        for(int i = 0; i < data.filesToSync.size(); i++) {
-	        	export[0][i] = data.filesToSync.get(i).getName();
-	        	export[1][i] = data.filesToSync.get(i).getAbsolutePath();
-	        	export[2][i] = data.filesToSync.get(i).exists();
-	        }
-	        
-	        return export;
-	    } catch (Exception e) {
-	    	e.printStackTrace();
-	    	return null;
-	    }
-	}
-	
 	public static FileSegment nextSegment(byte id, long block, FileInputStream fis) {
 		byte[] read = new byte[Policy.FILE_CRYPTO_BUFFER];
 		try {
@@ -192,5 +164,5 @@ public class FileUtil {
 		seg.data = read;
 		return seg;
 	}
-
+	
 }
