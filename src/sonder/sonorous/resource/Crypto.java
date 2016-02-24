@@ -1,6 +1,5 @@
 package sonder.sonorous.resource;
 
-import java.io.UnsupportedEncodingException;
 import java.nio.charset.Charset;
 import java.security.MessageDigest;
 import org.jasypt.contrib.org.apache.commons.codec_1_3.binary.Base64;
@@ -24,7 +23,7 @@ public class Crypto {
 	
 	public static String hash(String in) throws Exception {
 		md.update(in.getBytes("UTF-8"));
-		return new String(Base64.encodeBase64(md.digest()), Charset.forName("UTF-8"));
+		return new String(md.digest(), Charset.forName("UTF-8"));
 	}
 	
 	public static String encrypt_text(String in, String key) {
@@ -57,6 +56,14 @@ public class Crypto {
 	
 	public static void setBE_global(String key) {
 		eb_global.setPassword(key);
+	}
+	
+	public static String encodeB64(String in) {
+		return new String(Base64.encodeBase64(in.getBytes(Charset.forName("UTF-8"))));
+	}
+	
+	public static String decodeB64(String in) {
+		return new String(Base64.decodeBase64(in.getBytes(Charset.forName("UTF-8"))));
 	}
 
 }
