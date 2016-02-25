@@ -2,7 +2,7 @@ package sonder.sonorous.network.data;
 
 public class FileSegment {
 	
-	public byte id;
+	public int id;
 	public byte[] data;
 
 }
