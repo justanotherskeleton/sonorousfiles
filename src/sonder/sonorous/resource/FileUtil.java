@@ -57,6 +57,10 @@ public class FileUtil {
 		return size;
 	}
 	
+	public static long fileSize(File file) {
+		return file.length();
+	}
+	
 	//Zips files then encrypts zip
 	public static void encryptFiles(File folder, String key) throws Exception {
 		if(!folder.exists()) {
